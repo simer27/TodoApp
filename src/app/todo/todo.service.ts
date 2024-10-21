@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TodoEntity } from './entity/todo.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -20,9 +25,8 @@ export class TodoService {
     try {
       return await this.todoRepository.findOneOrFail({ where: { id } });
     } catch (error) {
-      throw new HttpException(
+      throw new NotFoundException(
         `O id ${id}, não foi encontrado na base de dados.`,
-        HttpStatus.NOT_FOUND,
       );
     }
   }
